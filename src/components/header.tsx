@@ -14,10 +14,6 @@ const Header = () => {
 
     const { filter, setFilter, favorites } = GifState();
 
-    // const fetchGifCategories = async () => {
-    //     const { data } = await gf.categories()
-    //     setCategories(data)
-    // }
     const fetchGifCategories = async () => {
         const res = await fetch("/categories.json");
         const {data} = await res.json();

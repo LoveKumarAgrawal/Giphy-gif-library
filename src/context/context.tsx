@@ -1,23 +1,25 @@
 import { GiphyFetch } from "@giphy/js-fetch-api";
 import { createContext, ReactNode, useContext, useState } from "react";
+import {IGif} from "../types/gif.type"
 
 interface GifContextType {
-    gf?: GiphyFetch;
-    gifs: { id: string; url: string }[];
-    setGifs: (gifs: { id: string; url: string }[]) => void;
-    filter: string;
-    setFilter: (filter: string) => void;
+    gf: GiphyFetch;
+    gifs: IGif[];
+    setGifs: (gifs: IGif[]) => void;
+    filter: "stickers" | "text" | "gifs";
+    setFilter: (filter: "stickers" | "text" | "gifs") => void;
     favorites: { id: string; url: string }[];
 }
 
 const GifContext = createContext<GifContextType | undefined>(undefined)
 
 const GifProvider = ({ children }: {children : ReactNode}) => {
-    const [gifs, setGifs] = useState<{ id: string; url: string }[]>([]);
-    const [filter, setFilter] = useState<string>("gifs");
+    const [gifs, setGifs] = useState<IGif[]>([]);
+    const [filter, setFilter] = useState<"stickers" | "text" | "gifs">("gifs");
     const [favorites, setFavorites] = useState<{ id: string; url: string }[]>([]);
 
     const gf = new GiphyFetch(import.meta.env.VITE_GIPHY_API_KEY)
+    console.log(gf)
 
     return <GifContext.Provider value={{gf, gifs, setGifs, filter, setFilter, favorites}}>{children}</GifContext.Provider>
 }

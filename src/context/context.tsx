@@ -8,7 +8,7 @@ interface GifContextType {
     setGifs: (gifs: IGif[]) => void;
     filter: "stickers" | "text" | "gifs";
     setFilter: (filter: "stickers" | "text" | "gifs") => void;
-    favorites: { id: string; url: string }[];
+    favorites: IGif[];
 }
 
 const GifContext = createContext<GifContextType | undefined>(undefined)
@@ -16,10 +16,9 @@ const GifContext = createContext<GifContextType | undefined>(undefined)
 const GifProvider = ({ children }: {children : ReactNode}) => {
     const [gifs, setGifs] = useState<IGif[]>([]);
     const [filter, setFilter] = useState<"stickers" | "text" | "gifs">("gifs");
-    const [favorites, setFavorites] = useState<{ id: string; url: string }[]>([]);
+    const [favorites, setFavorites] = useState<IGif[]>([]);
 
     const gf = new GiphyFetch(import.meta.env.VITE_GIPHY_API_KEY)
-    console.log(gf)
 
     return <GifContext.Provider value={{gf, gifs, setGifs, filter, setFilter, favorites}}>{children}</GifContext.Provider>
 }
